@@ -1,5 +1,6 @@
 package com.cristian.tiusers.service.impl;
 
+import com.cristian.tiusers.aspect.Monitor;
 import com.cristian.tiusers.dto.UserDto;
 import com.cristian.tiusers.dto.UserProjectionDto;
 import com.cristian.tiusers.exception.CompanyNotFoundException;
@@ -45,6 +46,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
+    @Monitor
     public void saveUser(UserDto userDto) {
         User user = UserMapper.dtoToUser(userDto);
 
@@ -61,6 +63,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Monitor
     public void deleteUserById(long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> {

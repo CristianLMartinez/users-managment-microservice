@@ -1,5 +1,6 @@
 package com.cristian.tiusers.service.impl;
 
+import com.cristian.tiusers.aspect.Monitor;
 import com.cristian.tiusers.dto.DepartmentDto;
 import com.cristian.tiusers.exception.CompanyNotFoundException;
 import com.cristian.tiusers.exception.DepartmentNotFoundException;
@@ -26,6 +27,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 
     @Override
+    @Monitor
     public void saveDepartment(DepartmentDto department) {
         Company company = companyRepository.findById(department.companyId())
                 .orElseThrow(() -> new CompanyNotFoundException("Company with id: "+department.companyId()+" not found"));
@@ -38,6 +40,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @Monitor
     public void updateDepartment(Long id, DepartmentDto departmentDto) {
 
         Department department = departmentRepository.findById(id)

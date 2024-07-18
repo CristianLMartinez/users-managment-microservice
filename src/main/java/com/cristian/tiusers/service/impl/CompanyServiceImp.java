@@ -1,5 +1,6 @@
 package com.cristian.tiusers.service.impl;
 
+import com.cristian.tiusers.aspect.Monitor;
 import com.cristian.tiusers.dto.CompanyDto;
 import com.cristian.tiusers.mapper.CompanyMapper;
 import com.cristian.tiusers.model.Company;
@@ -21,6 +22,7 @@ public class CompanyServiceImp implements CompanyService {
     private final Logger logger = LoggerFactory.getLogger(CompanyServiceImp.class);
 
     @Override
+    @Monitor
     public void saveCompany(CompanyDto companyDto) {
         if (companyDto == null) {
             logger.error("Attempted to save a null company");
