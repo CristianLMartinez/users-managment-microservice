@@ -2,7 +2,7 @@ package com.cristian.tiusers.service.impl;
 
 import com.cristian.tiusers.dto.UserDto;
 import com.cristian.tiusers.dto.UserProjectionDto;
-import com.cristian.tiusers.exception.CompanyNotFound;
+import com.cristian.tiusers.exception.CompanyNotFoundException;
 import com.cristian.tiusers.exception.UserNotFoundException;
 import com.cristian.tiusers.model.Company;
 import com.cristian.tiusers.model.Department;
@@ -164,9 +164,9 @@ class UserServiceImpTest {
     @Test
     @DisplayName("Test find users by company throws company not found exception")
     void testThrowsCompanyNotFoundException() {
-        when(companyRepository.findById(anyLong())).thenThrow(CompanyNotFound.class);
+        when(companyRepository.findById(anyLong())).thenThrow(CompanyNotFoundException.class);
 
-        assertThrows(CompanyNotFound.class, () -> {
+        assertThrows(CompanyNotFoundException.class, () -> {
             userServiceImp.saveUser(userDto);
         });
     }

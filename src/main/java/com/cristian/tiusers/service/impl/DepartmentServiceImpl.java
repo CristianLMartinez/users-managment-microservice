@@ -1,8 +1,8 @@
 package com.cristian.tiusers.service.impl;
 
 import com.cristian.tiusers.dto.DepartmentDto;
-import com.cristian.tiusers.exception.CompanyNotFound;
-import com.cristian.tiusers.exception.DepartmentNotFound;
+import com.cristian.tiusers.exception.CompanyNotFoundException;
+import com.cristian.tiusers.exception.DepartmentNotFoundException;
 
 import com.cristian.tiusers.mapper.DepartmentMapper;
 import com.cristian.tiusers.model.Company;
@@ -28,7 +28,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void saveDepartment(DepartmentDto department) {
         Company company = companyRepository.findById(department.companyId())
-                .orElseThrow(() -> new CompanyNotFound("Company with id: "+department.companyId()+" not found"));
+                .orElseThrow(() -> new CompanyNotFoundException("Company with id: "+department.companyId()+" not found"));
 
         Department departmentToSave = DepartmentMapper.dtoToDepartment(department);
         departmentToSave.setCompany(company);
@@ -41,7 +41,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void updateDepartment(Long id, DepartmentDto departmentDto) {
 
         Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> new DepartmentNotFound("Department with id: "+id+" not found"));
+                .orElseThrow(() -> new DepartmentNotFoundException("Department with id: "+id+" not found"));
 
         if(Objects.nonNull(departmentDto.name())) {
             department.setName(departmentDto.name());
@@ -58,7 +58,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public DepartmentDto getDepartmentById(Long id) {
         Department department = departmentRepository.findById(id)
-                .orElseThrow(() ->  new DepartmentNotFound("Department with id: "+id+" not found"));
+                .orElseThrow(() ->  new DepartmentNotFoundException("Department with id: "+id+" not found"));
         return DepartmentMapper.departmentToDto(department);
     }
 

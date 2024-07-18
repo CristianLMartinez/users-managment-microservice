@@ -2,8 +2,8 @@ package com.cristian.tiusers.service.impl;
 
 import com.cristian.tiusers.dto.UserDto;
 import com.cristian.tiusers.dto.UserProjectionDto;
-import com.cristian.tiusers.exception.CompanyNotFound;
-import com.cristian.tiusers.exception.DepartmentNotFound;
+import com.cristian.tiusers.exception.CompanyNotFoundException;
+import com.cristian.tiusers.exception.DepartmentNotFoundException;
 import com.cristian.tiusers.exception.UserNotFoundException;
 import com.cristian.tiusers.mapper.UserMapper;
 import com.cristian.tiusers.model.Company;
@@ -17,12 +17,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 
 @Service
@@ -39,7 +36,7 @@ public class UserServiceImp implements UserService {
     @Transactional
     public Page<UserProjectionDto> getUsersByCompany(Long companyId, Pageable pageable) {
         Company company = companyRepository.findById(companyId)
-                .orElseThrow(() -> new CompanyNotFound(String.format("Company with id %d not found", companyId)));
+                .orElseThrow(() -> new CompanyNotFoundException(String.format("Company with id %d not found", companyId)));
 
         Page<User> usersPage = userRepository.findUsersByCompanyId(company.getId(), pageable);
 
@@ -52,10 +49,10 @@ public class UserServiceImp implements UserService {
         User user = UserMapper.dtoToUser(userDto);
 
         Company company = companyRepository.findById(userDto.companyId())
-                .orElseThrow(() -> new CompanyNotFound("Company not found"));
+                .orElseThrow(() -> new CompanyNotFoundException("Company not found"));
 
         Department department = departmentRepository.findById(userDto.departmentId())
-                .orElseThrow(() -> new DepartmentNotFound("Department not found"));
+                .orElseThrow(() -> new DepartmentNotFoundException("Department not found"));
 
         user.setCompany(company);
         user.setDepartment(department);

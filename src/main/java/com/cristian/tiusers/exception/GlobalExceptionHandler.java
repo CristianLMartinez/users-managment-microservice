@@ -15,8 +15,8 @@ public class GlobalExceptionHandler {
 
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(DepartmentNotFound.class)
-    public ResponseEntity<ApiError> departmentNotFound(DepartmentNotFound ex, HttpServletRequest request) {
+    @ExceptionHandler(DepartmentNotFoundException.class)
+    public ResponseEntity<ApiError> departmentNotFound(DepartmentNotFoundException ex, HttpServletRequest request) {
         logger.warn(ex.getMessage());
         ApiError apiError = new ApiError(
                 request.getRequestURI(),
@@ -41,8 +41,8 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(CompanyNotFound.class)
-    public ResponseEntity<ApiError> companyNotFound(CompanyNotFound ex, HttpServletRequest request) {
+    @ExceptionHandler(CompanyNotFoundException.class)
+    public ResponseEntity<ApiError> companyNotFound(CompanyNotFoundException ex, HttpServletRequest request) {
         logger.warn(ex.getMessage());
         ApiError apiError = new ApiError(
                 request.getRequestURI(),

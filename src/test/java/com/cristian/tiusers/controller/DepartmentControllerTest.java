@@ -1,7 +1,7 @@
 package com.cristian.tiusers.controller;
 
 import com.cristian.tiusers.dto.DepartmentDto;
-import com.cristian.tiusers.exception.DepartmentNotFound;
+import com.cristian.tiusers.exception.DepartmentNotFoundException;
 import com.cristian.tiusers.service.DepartmentService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -87,7 +87,7 @@ class DepartmentControllerTest {
         long departmentId = 1L;
 
         when(departmentService.getDepartmentById(departmentId))
-                .thenThrow(new DepartmentNotFound("Department not found"));
+                .thenThrow(new DepartmentNotFoundException("Department not found"));
 
         mockMvc.perform(get("/api/v1/departments/" + departmentId)
                         .contentType(MediaType.APPLICATION_JSON))

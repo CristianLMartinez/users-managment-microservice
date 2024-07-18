@@ -1,8 +1,8 @@
 package com.cristian.tiusers.service.impl;
 
 import com.cristian.tiusers.dto.DepartmentDto;
-import com.cristian.tiusers.exception.CompanyNotFound;
-import com.cristian.tiusers.exception.DepartmentNotFound;
+import com.cristian.tiusers.exception.CompanyNotFoundException;
+import com.cristian.tiusers.exception.DepartmentNotFoundException;
 import com.cristian.tiusers.model.Company;
 import com.cristian.tiusers.model.Department;
 import com.cristian.tiusers.repository.CompanyRepository;
@@ -67,10 +67,10 @@ class DepartmentServiceImplTest {
     @Test
     @DisplayName("test updating a department")
     void updateDepartment() {
-        when(companyRepository.findById(anyLong())).thenReturn(Optional.of(company));
+        when(departmentRepository.findById(anyLong())).thenReturn(Optional.of(department));
         when(departmentRepository.save(any(Department.class))).thenReturn(department);
 
-        departmentService.saveDepartment(departmentDto);
+        departmentService.updateDepartment(anyLong(), departmentDto);
         verify(departmentRepository, times(1)).save(any(Department.class));
     }
 
@@ -87,15 +87,15 @@ class DepartmentServiceImplTest {
     @Test
     @DisplayName("test that when we pass a wrong input it's going to throws a department not found exception")
     void throwsDepartmentNotFoundException() {
-        assertThrows(DepartmentNotFound.class, ()  -> departmentService.getDepartmentById(null));
+        assertThrows(DepartmentNotFoundException.class, ()  -> departmentService.getDepartmentById(null));
     }
 
     @Test
     @DisplayName("Test save department throws company not found exception")
     void testThrowsCompanyNotFoundException() {
-        when(companyRepository.findById(anyLong())).thenThrow(CompanyNotFound.class);
+        when(companyRepository.findById(anyLong())).thenThrow(CompanyNotFoundException.class);
 
-        assertThrows(CompanyNotFound.class, () -> {
+        assertThrows(CompanyNotFoundException.class, () -> {
             departmentService.saveDepartment(departmentDto);
         });
     }
