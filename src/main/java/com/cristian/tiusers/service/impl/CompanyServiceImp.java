@@ -2,6 +2,7 @@ package com.cristian.tiusers.service.impl;
 
 import com.cristian.tiusers.aspect.Monitor;
 import com.cristian.tiusers.dto.CompanyDto;
+import com.cristian.tiusers.mapper.CompanyMap;
 import com.cristian.tiusers.mapper.CompanyMapper;
 import com.cristian.tiusers.model.Company;
 import com.cristian.tiusers.repository.CompanyRepository;
@@ -34,7 +35,8 @@ public class CompanyServiceImp implements CompanyService {
             throw new IllegalArgumentException("Company data is invalid");
         }
 
-        Company company = CompanyMapper.dtoToCompany(companyDto);
+//        Company company = CompanyMapper.dtoToCompany(companyDto);
+        Company company = CompanyMap.INSTANCE.dtoToCompany(companyDto);
         companyRepository.save(company);
         logger.info("Company saved successfully: {}", company);
     }
